@@ -60,7 +60,23 @@ export default function gameBoard() {
     }
   };
 
-  const receiveAttack = (x, y) => {};
+  const receiveAttack = (x, y) => {
+    if (typeof gameGrid[y][x] === "object") {
+      gameGrid[y][x].hit();
+      gameGrid[y][x] = true;
+      return true;
+    } else if (gameGrid[y][x] === undefined) {
+      gameGrid[y][x] = true;
+      return true;
+    } else {
+      console.log(`cannot attack at this coordinate x:${x},y:${y}`);
+      return false;
+    }
+  };
 
-  return { getGameGrid, placeShip, receiveAttack };
+  const isAllSunk = () => {
+    return allShips.every((ship) => ship.isSunk());
+  };
+
+  return { getGameGrid, placeShip, receiveAttack, isAllSunk };
 }
