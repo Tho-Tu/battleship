@@ -12,25 +12,59 @@ export default function dom(playerGameBoard, enemyGameBoard) {
   const enemy = document.querySelector(".enemy");
   const enemySquares = document.querySelector(".enemy-squares");
 
-  renderGameGrid(playerSquares, playerGameBoard);
-  renderGameGrid(enemySquares, enemyGameBoard);
+  renderPlayerGameGrid(playerSquares, playerGameBoard);
+  renderEnemyGameGrid(enemySquares, enemyGameBoard);
+
+  //   render the ships
 }
 
-function renderGameGrid(gridSquares, gameBoard) {
+function renderPlayerGameGrid(gridSquares, gameBoard) {
   gridSquares.textContent = "";
   let gridSize = gameBoard.getGameGrid().length;
 
   for (let i = 0; i < gridSize; i++) {
-    const column = document.createElement("div");
-    column.setAttribute("class", "column");
+    const row = document.createElement("div");
+    row.setAttribute("class", "row");
 
     for (let j = 0; j < gridSize; j++) {
-      const row = document.createElement("div");
-      row.setAttribute("class", "grids");
-      column.appendChild(row);
+      const grid = document.createElement("div");
+      grid.setAttribute("class", "grids");
+
+      typeof gameBoard.getGameGrid()[i][j] === "object"
+        ? grid.classList.add("ship")
+        : renderGridConditions(i, j, gameBoard);
+
+      row.appendChild(grid);
     }
-    gridSquares.appendChild(column);
+    gridSquares.appendChild(row);
   }
+}
+
+function renderEnemyGameGrid(gridSquares, gameBoard) {
+  gridSquares.textContent = "";
+  let gridSize = gameBoard.getGameGrid().length;
+
+  for (let i = 0; i < gridSize; i++) {
+    const row = document.createElement("div");
+    row.setAttribute("class", "row");
+
+    for (let j = 0; j < gridSize; j++) {
+      const grid = document.createElement("div");
+      grid.setAttribute("class", "grids");
+
+      renderGridConditions(i, j, gameBoard);
+      row.appendChild(grid);
+    }
+    gridSquares.appendChild(row);
+  }
+}
+
+function renderGridConditions(y, x, gameBoard) {
+  gameBoard.getGameGrid()[y][x] === "hit"
+    ? row.classList.add("hit")
+    : gameBoard.getGameGrid()[y][x] === "miss"
+    ? row.classList.add("miss")
+    : undefined;
 }
 
 function startGame() {}

@@ -4,11 +4,7 @@ export default function gameBoard() {
   let gameGrid = [...Array(10)].map(() => Array(10));
 
   //   define ships
-  let shipOne = ship(2);
-  let shipTwo = ship(3);
-  let shipThree = ship(4);
-  let shipFour = ship(5);
-  let allShips = [shipOne, shipTwo, shipThree, shipFour];
+  let allShips = [];
 
   const getGameGrid = () => {
     return gameGrid;
@@ -44,6 +40,7 @@ export default function gameBoard() {
 
   const placeShip = (x, y, ship, direction) => {
     if (verifyPosition(x, y, ship, direction)) {
+      allShips.push(ship);
       if (direction === "v") {
         for (let i = 0; i < ship.shipLength; i++) {
           gameGrid[y + i][x] = ship;
@@ -59,18 +56,19 @@ export default function gameBoard() {
       return false;
     }
   };
-
+  // each square has 3 possible values => ship (object) / undefined (not attacked) / true (attacked)
   const receiveAttack = (x, y) => {
     if (typeof gameGrid[y][x] === "object") {
       gameGrid[y][x].hit();
-      gameGrid[y][x] = true;
-      return true;
+      gameGrid[y][x] = "hit";
+      return "hit";
     } else if (gameGrid[y][x] === undefined) {
-      gameGrid[y][x] = true;
-      return true;
+      gameGrid[y][x] = "miss";
+      return "miss";
     } else {
-      console.log(`cannot attack at this coordinate x:${x},y:${y}`);
-      return false;
+      let errMsg = `cannot attack at this coordinate x:${x},y:${y}`;
+      console.log(errMsg);
+      return errMsg;
     }
   };
 

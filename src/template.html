@@ -8,15 +8,28 @@
   <body>
     <div class="root">
       <h1>BattleShips</h1>
+      <div class="start-game">
+        <button type="button" id="start-game">Start Game</button>
+      </div>
       <div class="content">
         <div class="player">
           <h3>Player</h3>
           <div class="player-squares"></div>
+          <div class="randomize-layout">
+            <button type="button" id="randomize-layout">
+              Randomize layout
+            </button>
+          </div>
         </div>
         <div class="enemy">
           <h3>Enemy</h3>
           <div class="enemy-squares"></div>
         </div>
+      </div>
+      <div class="play-again">
+        <button type="button" id="play-again" style="display: none">
+          Play Again
+        </button>
       </div>
     </div>
   </body>
