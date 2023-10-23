@@ -7,6 +7,7 @@ export { renderPlayerGameGrid, renderEnemyGameGrid };
 
 const playerSquares = document.querySelector(".player-squares");
 const enemySquares = document.querySelector(".enemy-squares");
+let gameFinished = false;
 
 export default function dom(playerGameBoard, enemyGameBoard) {
   const playAgainButton = document.getElementById("play-again");
@@ -50,12 +51,20 @@ function renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay) {
       const grid = document.createElement("div");
       grid.setAttribute("class", "grids");
       grid.addEventListener("click", () => {
-        const attack = attackController(j, i, enemyGameBoard, playerGameBoard);
-        renderGridConditions(i, j, enemyGameBoard, grid);
-        renderPlayerGameGrid(playerGameBoard);
-        if (attack !== undefined) {
-          endGameDisplay.playAgainButton.style.cssText = "display: block";
-          endGameDisplay.winnerText.textContent = `${attack}!`;
+        if (gameFinished === false) {
+          const attack = attackController(
+            j,
+            i,
+            enemyGameBoard,
+            playerGameBoard
+          );
+          renderGridConditions(i, j, enemyGameBoard, grid);
+          renderPlayerGameGrid(playerGameBoard);
+          if (attack !== undefined) {
+            gameFinished = true;
+            endGameDisplay.playAgainButton.style.cssText = "display: block";
+            endGameDisplay.winnerText.textContent = `${attack}!`;
+          }
         }
       });
 

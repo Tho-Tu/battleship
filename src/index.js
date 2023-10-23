@@ -85,14 +85,8 @@ function attackController(x, y, enemyGameBoard, playerGameBoard) {
 }
 
 function gameController() {
-  // controls flow of game - step through game turn by turn
   const { playerGameBoard, enemyGameBoard } = gameSetup();
   eventHandling(playerGameBoard, enemyGameBoard);
-  //   setup() -> player chooses layout
-  // create ships
-  //   startGame() -> player able to attack *unable to readjust layout
-
-  // end game -> determine winner -> option to restart -> brings back start button
 }
 
 gameController();
