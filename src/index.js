@@ -4,6 +4,8 @@ import player from "./player";
 import dom, { renderPlayerGameGrid, renderEnemyGameGrid } from "./dom";
 import "./styles/styles.css";
 
+export { attackController };
+
 function gameSetup() {
   const playerShips = [ship(2), ship(3), ship(4), ship(5)];
   const enemyShips = [ship(2), ship(3), ship(4), ship(5)];
@@ -56,7 +58,7 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
   const enemyDiv = document.querySelector(".enemy");
 
   startButton.addEventListener("click", () => {
-    startGame(playerGameBoard, enemyGameBoard);
+    dom(playerGameBoard, enemyGameBoard);
     enemyDiv.style.cssText = "display: flex";
     randomizeLayoutButton.style.cssText = "display: none";
     startButton.style.cssText = "display: none";
@@ -69,8 +71,17 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
   });
 }
 
-function startGame(playerGameBoard, enemyGameBoard) {
-  dom(playerGameBoard, enemyGameBoard);
+function attackController(x, y, enemyGameBoard, playerGameBoard) {
+  if (enemyGameBoard.receiveAttack(x, y)) {
+    enemyGameBoard.receiveAttack(x, y);
+    player(playerGameBoard).makeMove();
+  }
+  if (enemyGameBoard.isAllSunk()) {
+    return "Player Wins";
+  }
+  if (playerGameBoard.isAllSunk()) {
+    return "Enemy Wins";
+  }
 }
 
 function gameController() {

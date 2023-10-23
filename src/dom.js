@@ -1,6 +1,7 @@
 import ship from "./ship";
 import gameBoard from "./gameboard";
 import player from "./player";
+import { attackController } from ".";
 
 export { renderPlayerGameGrid, renderEnemyGameGrid };
 
@@ -8,8 +9,11 @@ const playerSquares = document.querySelector(".player-squares");
 const enemySquares = document.querySelector(".enemy-squares");
 
 export default function dom(playerGameBoard, enemyGameBoard) {
+  const playAgainButton = document.getElementById("play-again");
+  const winnerText = document.querySelector(".play-again h1");
+  const endGameDisplay = { playAgainButton, winnerText };
   renderPlayerGameGrid(playerGameBoard);
-  renderEnemyGameGrid(enemyGameBoard, playerGameBoard);
+  renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay);
 }
 
 function renderPlayerGameGrid(gameBoard) {
@@ -34,7 +38,7 @@ function renderPlayerGameGrid(gameBoard) {
   }
 }
 
-function renderEnemyGameGrid(enemyGameBoard, playerGameBoard) {
+function renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay) {
   enemySquares.textContent = "";
   let gridSize = enemyGameBoard.getGameGrid().length;
 
@@ -46,11 +50,12 @@ function renderEnemyGameGrid(enemyGameBoard, playerGameBoard) {
       const grid = document.createElement("div");
       grid.setAttribute("class", "grids");
       grid.addEventListener("click", () => {
-        if (enemyGameBoard.receiveAttack(j, i)) {
-          enemyGameBoard.receiveAttack(j, i);
-          player(playerGameBoard).makeMove();
-          renderGridConditions(i, j, enemyGameBoard, grid);
-          renderPlayerGameGrid(playerGameBoard);
+        const attack = attackController(j, i, enemyGameBoard, playerGameBoard);
+        renderGridConditions(i, j, enemyGameBoard, grid);
+        renderPlayerGameGrid(playerGameBoard);
+        if (attack !== undefined) {
+          endGameDisplay.playAgainButton.style.cssText = "display: block";
+          endGameDisplay.winnerText.textContent = `${attack}!`;
         }
       });
 

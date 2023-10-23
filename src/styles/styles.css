@@ -96,3 +96,9 @@ button:active {
 .ship {
   background-color: rgb(167 243 208);
 }
+
+.play-again {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
