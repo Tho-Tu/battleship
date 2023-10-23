@@ -3,16 +3,17 @@ import gameBoard from "./gameboard";
 import player from "./player";
 import { attackController } from ".";
 
-export { renderPlayerGameGrid, renderEnemyGameGrid };
+export { renderPlayerGameGrid, renderEnemyGameGrid, gameFinished };
 
 const playerSquares = document.querySelector(".player-squares");
 const enemySquares = document.querySelector(".enemy-squares");
-let gameFinished = false;
+let gameFinished = { status: false };
 
-export default function dom(playerGameBoard, enemyGameBoard) {
+export default function initializeGame(playerGameBoard, enemyGameBoard) {
   const playAgainButton = document.getElementById("play-again");
   const winnerText = document.querySelector(".play-again h1");
   const endGameDisplay = { playAgainButton, winnerText };
+
   renderPlayerGameGrid(playerGameBoard);
   renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay);
 }
@@ -51,7 +52,7 @@ function renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay) {
       const grid = document.createElement("div");
       grid.setAttribute("class", "grids");
       grid.addEventListener("click", () => {
-        if (gameFinished === false) {
+        if (gameFinished.status === false) {
           const attack = attackController(
             j,
             i,
@@ -61,7 +62,7 @@ function renderEnemyGameGrid(enemyGameBoard, playerGameBoard, endGameDisplay) {
           renderGridConditions(i, j, enemyGameBoard, grid);
           renderPlayerGameGrid(playerGameBoard);
           if (attack !== undefined) {
-            gameFinished = true;
+            gameFinished.status = true;
             endGameDisplay.playAgainButton.style.cssText = "display: block";
             endGameDisplay.winnerText.textContent = `${attack}!`;
           }

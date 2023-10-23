@@ -1,7 +1,11 @@
 import ship from "./ship";
 import gameBoard from "./gameboard";
 import player from "./player";
-import dom, { renderPlayerGameGrid, renderEnemyGameGrid } from "./dom";
+import initializeGame, {
+  renderPlayerGameGrid,
+  renderEnemyGameGrid,
+  gameFinished,
+} from "./dom";
 import "./styles/styles.css";
 
 export { attackController };
@@ -16,7 +20,8 @@ function gameSetup() {
   const enemyGameBoard = gameBoard();
   randomizeLayout(enemyGameBoard, enemyShips);
 
-  renderPlayerGameGrid(playerGameBoard);
+  //renders empty board
+  renderPlayerGameGrid(gameBoard());
 
   return { playerGameBoard, enemyGameBoard, playerShips };
 }
@@ -54,11 +59,13 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
   const { playerShips } = gameSetup();
   const startButton = document.getElementById("start-game");
   const randomizeLayoutButton = document.getElementById("randomize-layout");
-
   const enemyDiv = document.querySelector(".enemy");
 
+  const playAgainButton = document.getElementById("play-again");
+  const winnerText = document.querySelector(".play-again h1");
+
   startButton.addEventListener("click", () => {
-    dom(playerGameBoard, enemyGameBoard);
+    initializeGame(playerGameBoard, enemyGameBoard);
     enemyDiv.style.cssText = "display: flex";
     randomizeLayoutButton.style.cssText = "display: none";
     startButton.style.cssText = "display: none";
@@ -68,6 +75,19 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
     playerGameBoard.resetShips();
     randomizeLayout(playerGameBoard, playerShips);
     renderPlayerGameGrid(playerGameBoard);
+  });
+
+  playAgainButton.addEventListener("click", () => {
+    playerGameBoard.resetShips();
+    enemyGameBoard.resetShips();
+    gameController();
+    initializeGame(playerGameBoard, enemyGameBoard);
+    gameFinished.status = false;
+    startButton.style.cssText = "display: block";
+    randomizeLayoutButton.style.cssText = "display: block";
+    enemyDiv.style.cssText = "display: none";
+    playAgainButton.style.cssText = "display: none";
+    winnerText.textContent = "";
   });
 }
 
