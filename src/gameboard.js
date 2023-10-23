@@ -56,7 +56,7 @@ export default function gameBoard() {
       return false;
     }
   };
-  // each square has 3 possible values => ship (object) / undefined (not attacked) / true (attacked)
+  // each square has 3 possible values => object (ship) / undefined (not attacked) / true (attacked)
   const receiveAttack = (x, y) => {
     if (typeof gameGrid[y][x] === "object") {
       gameGrid[y][x].hit();
@@ -68,7 +68,7 @@ export default function gameBoard() {
     } else {
       let errMsg = `cannot attack at this coordinate x:${x},y:${y}`;
       console.log(errMsg);
-      return errMsg;
+      return;
     }
   };
 

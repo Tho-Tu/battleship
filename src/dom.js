@@ -32,7 +32,7 @@ function renderPlayerGameGrid(gridSquares, gameBoard) {
 
       typeof gameBoard.getGameGrid()[i][j] === "object"
         ? grid.classList.add("ship")
-        : renderGridConditions(i, j, gameBoard);
+        : renderGridConditions(i, j, gameBoard, grid);
 
       row.appendChild(grid);
     }
@@ -51,19 +51,23 @@ function renderEnemyGameGrid(gridSquares, gameBoard) {
     for (let j = 0; j < gridSize; j++) {
       const grid = document.createElement("div");
       grid.setAttribute("class", "grids");
+      grid.addEventListener("click", () => {
+        gameBoard.receiveAttack(j, i);
+        renderGridConditions(i, j, gameBoard, grid);
+      });
 
-      renderGridConditions(i, j, gameBoard);
+      renderGridConditions(i, j, gameBoard, grid);
       row.appendChild(grid);
     }
     gridSquares.appendChild(row);
   }
 }
 
-function renderGridConditions(y, x, gameBoard) {
+function renderGridConditions(y, x, gameBoard, grid) {
   gameBoard.getGameGrid()[y][x] === "hit"
-    ? row.classList.add("hit")
+    ? grid.classList.add("hit")
     : gameBoard.getGameGrid()[y][x] === "miss"
-    ? row.classList.add("miss")
+    ? grid.classList.add("miss")
     : undefined;
 }
 
