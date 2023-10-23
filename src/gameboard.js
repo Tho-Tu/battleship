@@ -16,7 +16,7 @@ export default function gameBoard() {
 
   const verifyPosition = (x, y, ship, direction) => {
     // verify that no other ship is at position and ship fits into grid
-    const gridSize = 10;
+    const gridSize = gameGrid.length;
     if (direction === "v") {
       for (let i = 0; i < ship.shipLength; i++) {
         if (gameGrid[y + i][x] !== undefined) {
