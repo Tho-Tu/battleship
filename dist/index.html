@@ -4,9 +4,34 @@
     <meta charset="utf-8" />
     <title>Battleships</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script defer src="main.js"></script>
   <script defer src="main.js"></script></head>
   <body>
-    <div>testing</div>
+    <div class="root">
+      <h1>Battle Ships</h1>
+      <div class="start-game">
+        <button type="button" id="start-game">Start Game</button>
+      </div>
+      <div class="content">
+        <div class="player">
+          <h3>Player</h3>
+          <div class="player-squares"></div>
+          <div class="randomize-layout">
+            <button type="button" id="randomize-layout">
+              Randomize layout
+            </button>
+          </div>
+        </div>
+        <div class="enemy" style="display: none">
+          <h3>Enemy</h3>
+          <div class="enemy-squares"></div>
+        </div>
+      </div>
+      <div class="play-again">
+        <h1></h1>
+        <button type="button" id="play-again" style="display: none">
+          Play Again
+        </button>
+      </div>
+    </div>
   </body>
 </html>
