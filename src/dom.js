@@ -2,24 +2,18 @@ import ship from "./ship";
 import gameBoard from "./gameboard";
 import player from "./player";
 
+export { renderPlayerGameGrid, renderEnemyGameGrid };
+
+const playerSquares = document.querySelector(".player-squares");
+const enemySquares = document.querySelector(".enemy-squares");
+
 export default function dom(playerGameBoard, enemyGameBoard) {
-  //
-  const content = document.querySelector(".content");
-
-  const player = document.querySelector(".player");
-  const playerSquares = document.querySelector(".player-squares");
-
-  const enemy = document.querySelector(".enemy");
-  const enemySquares = document.querySelector(".enemy-squares");
-
-  renderPlayerGameGrid(playerSquares, playerGameBoard);
-  renderEnemyGameGrid(enemySquares, enemyGameBoard);
-
-  //   render the ships
+  renderPlayerGameGrid(playerGameBoard);
+  renderEnemyGameGrid(enemyGameBoard, playerGameBoard);
 }
 
-function renderPlayerGameGrid(gridSquares, gameBoard) {
-  gridSquares.textContent = "";
+function renderPlayerGameGrid(gameBoard) {
+  playerSquares.textContent = "";
   let gridSize = gameBoard.getGameGrid().length;
 
   for (let i = 0; i < gridSize; i++) {
@@ -36,13 +30,13 @@ function renderPlayerGameGrid(gridSquares, gameBoard) {
 
       row.appendChild(grid);
     }
-    gridSquares.appendChild(row);
+    playerSquares.appendChild(row);
   }
 }
 
-function renderEnemyGameGrid(gridSquares, gameBoard) {
-  gridSquares.textContent = "";
-  let gridSize = gameBoard.getGameGrid().length;
+function renderEnemyGameGrid(enemyGameBoard, playerGameBoard) {
+  enemySquares.textContent = "";
+  let gridSize = enemyGameBoard.getGameGrid().length;
 
   for (let i = 0; i < gridSize; i++) {
     const row = document.createElement("div");
@@ -52,14 +46,18 @@ function renderEnemyGameGrid(gridSquares, gameBoard) {
       const grid = document.createElement("div");
       grid.setAttribute("class", "grids");
       grid.addEventListener("click", () => {
-        gameBoard.receiveAttack(j, i);
-        renderGridConditions(i, j, gameBoard, grid);
+        if (enemyGameBoard.receiveAttack(j, i)) {
+          enemyGameBoard.receiveAttack(j, i);
+          player(playerGameBoard).makeMove();
+          renderGridConditions(i, j, enemyGameBoard, grid);
+          renderPlayerGameGrid(playerGameBoard);
+        }
       });
 
-      renderGridConditions(i, j, gameBoard, grid);
+      renderGridConditions(i, j, enemyGameBoard, grid);
       row.appendChild(grid);
     }
-    gridSquares.appendChild(row);
+    enemySquares.appendChild(row);
   }
 }
 

@@ -79,7 +79,7 @@ export default function gameBoard() {
     } else {
       let errMsg = `cannot attack at this coordinate x:${x},y:${y}`;
       console.log(errMsg);
-      return;
+      return false;
     }
   };
 

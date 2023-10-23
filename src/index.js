@@ -1,54 +1,22 @@
 import ship from "./ship";
 import gameBoard from "./gameboard";
 import player from "./player";
-import dom from "./dom";
+import dom, { renderPlayerGameGrid, renderEnemyGameGrid } from "./dom";
 import "./styles/styles.css";
 
-gameController();
+function gameSetup() {
+  const playerShips = [ship(2), ship(3), ship(4), ship(5)];
+  const enemyShips = [ship(2), ship(3), ship(4), ship(5)];
 
-function gameController() {
-  // controls flow of game
-  // step through game turn by turn
-
-  startGame();
-}
-
-function startGame() {
-  // create ships
-  let playerOne = ship(2);
-  let playerTwo = ship(3);
-  let playerThree = ship(4);
-  let playerFour = ship(5);
-  const playerShips = [playerOne, playerTwo, playerThree, playerFour];
-
-  let enemyOne = ship(2);
-  let enemyTwo = ship(3);
-  let enemyThree = ship(4);
-  let enemyFour = ship(5);
-  const enemyShips = [enemyOne, enemyTwo, enemyThree, enemyFour];
-
-  let playerGameBoard = gameBoard();
+  const playerGameBoard = gameBoard();
   randomizeLayout(playerGameBoard, playerShips);
 
-  //   playerGameBoard.placeShip(0, 9, playerOne, "h");
-  //   playerGameBoard.placeShip(3, 4, playerTwo, "h");
-  //   playerGameBoard.placeShip(2, 2, playerThree, "h");
-  //   playerGameBoard.placeShip(8, 3, playerFour, "v");
+  const enemyGameBoard = gameBoard();
+  randomizeLayout(enemyGameBoard, enemyShips);
 
-  let enemyGameBoard = gameBoard();
-  enemyGameBoard.placeShip(0, 0, enemyOne, "h");
-  enemyGameBoard.placeShip(1, 1, enemyTwo, "h");
-  enemyGameBoard.placeShip(2, 2, enemyThree, "h");
-  enemyGameBoard.placeShip(3, 3, enemyFour, "h");
+  renderPlayerGameGrid(playerGameBoard);
 
-  dom(playerGameBoard, enemyGameBoard);
-
-  const randomizeLayoutButton = document.getElementById("randomize-layout");
-  randomizeLayoutButton.addEventListener("click", () => {
-    playerGameBoard.resetShips();
-    randomizeLayout(playerGameBoard, playerShips);
-    dom(playerGameBoard, enemyGameBoard);
-  });
+  return { playerGameBoard, enemyGameBoard, playerShips };
 }
 
 function randomizeLayout(gameBoard, ships) {
@@ -79,3 +47,41 @@ function randomizeLayout(gameBoard, ships) {
     }
   }
 }
+
+function eventHandling(playerGameBoard, enemyGameBoard) {
+  const { playerShips } = gameSetup();
+  const startButton = document.getElementById("start-game");
+  const randomizeLayoutButton = document.getElementById("randomize-layout");
+
+  const enemyDiv = document.querySelector(".enemy");
+
+  startButton.addEventListener("click", () => {
+    startGame(playerGameBoard, enemyGameBoard);
+    enemyDiv.style.cssText = "display: flex";
+    randomizeLayoutButton.style.cssText = "display: none";
+    startButton.style.cssText = "display: none";
+  });
+
+  randomizeLayoutButton.addEventListener("click", () => {
+    playerGameBoard.resetShips();
+    randomizeLayout(playerGameBoard, playerShips);
+    renderPlayerGameGrid(playerGameBoard);
+  });
+}
+
+function startGame(playerGameBoard, enemyGameBoard) {
+  dom(playerGameBoard, enemyGameBoard);
+}
+
+function gameController() {
+  // controls flow of game - step through game turn by turn
+  const { playerGameBoard, enemyGameBoard } = gameSetup();
+  eventHandling(playerGameBoard, enemyGameBoard);
+  //   setup() -> player chooses layout
+  // create ships
+  //   startGame() -> player able to attack *unable to readjust layout
+
+  // end game -> determine winner -> option to restart -> brings back start button
+}
+
+gameController();
