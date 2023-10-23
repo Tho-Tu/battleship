@@ -10,10 +10,6 @@ export default function gameBoard() {
     return gameGrid;
   };
 
-  const getAllShips = () => {
-    return allShips;
-  };
-
   const resetShips = () => {
     allShips = [];
     gameGrid = [...Array(10)].map(() => Array(10));
@@ -25,7 +21,6 @@ export default function gameBoard() {
     if (direction === "v") {
       for (let i = 0; i < ship.shipLength; i++) {
         if (gameGrid[y + i][x] !== undefined) {
-          console.log("another ship in this position");
           return false;
         }
       }
@@ -35,7 +30,6 @@ export default function gameBoard() {
     } else if (direction === "h") {
       for (let i = 0; i < ship.shipLength; i++) {
         if (gameGrid[y][x + i] !== undefined) {
-          console.log("another ship in this position");
           return false;
         }
       }
@@ -67,7 +61,7 @@ export default function gameBoard() {
       return false;
     }
   };
-  // each square has 3 possible values => object (ship) / undefined (not attacked) / true (attacked)
+
   const receiveAttack = (x, y) => {
     if (typeof gameGrid[y][x] === "object") {
       gameGrid[y][x].hit();
@@ -89,7 +83,6 @@ export default function gameBoard() {
 
   return {
     getGameGrid,
-    getAllShips,
     resetShips,
     placeShip,
     receiveAttack,
