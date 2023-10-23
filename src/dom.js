@@ -70,5 +70,3 @@ function renderGridConditions(y, x, gameBoard, grid) {
     ? grid.classList.add("miss")
     : undefined;
 }
-
-function startGame() {}

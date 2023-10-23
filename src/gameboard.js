@@ -10,6 +10,15 @@ export default function gameBoard() {
     return gameGrid;
   };
 
+  const getAllShips = () => {
+    return allShips;
+  };
+
+  const resetShips = () => {
+    allShips = [];
+    gameGrid = [...Array(10)].map(() => Array(10));
+  };
+
   const verifyPosition = (x, y, ship, direction) => {
     // verify that no other ship is at position and ship fits into grid
     const gridSize = gameGrid.length;
@@ -45,12 +54,14 @@ export default function gameBoard() {
         for (let i = 0; i < ship.shipLength; i++) {
           gameGrid[y + i][x] = ship;
         }
+        return true;
       }
 
       if (direction === "h") {
         for (let i = 0; i < ship.shipLength; i++) {
           gameGrid[y][x + i] = ship;
         }
+        return true;
       }
     } else {
       return false;
@@ -76,5 +87,12 @@ export default function gameBoard() {
     return allShips.every((ship) => ship.isSunk());
   };
 
-  return { getGameGrid, placeShip, receiveAttack, isAllSunk };
+  return {
+    getGameGrid,
+    getAllShips,
+    resetShips,
+    placeShip,
+    receiveAttack,
+    isAllSunk,
+  };
 }

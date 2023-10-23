@@ -86,13 +86,13 @@ button:active {
 }
 
 .hit {
-  background-color: red;
+  background-color: rgb(253, 151, 138);
 }
 
 .miss {
-  background-color: aqua;
+  background-color: #64748b;
 }
 
 .ship {
-  background-color: greenyellow;
+  background-color: rgb(167 243 208);
 }
