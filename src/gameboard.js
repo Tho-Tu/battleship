@@ -71,8 +71,6 @@ export default function gameBoard() {
       gameGrid[y][x] = "miss";
       return "miss";
     } else {
-      let errMsg = `cannot attack at this coordinate x:${x},y:${y}`;
-      console.log(errMsg);
       return false;
     }
   };
