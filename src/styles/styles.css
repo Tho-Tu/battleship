@@ -67,11 +67,9 @@ button:active {
 }
 
 .enemy {
-  display: none;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  transition: all 0.15s ease 0.15s;
 }
 
 .player-squares {
