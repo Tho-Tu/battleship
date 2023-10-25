@@ -66,7 +66,7 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
 
   startButton.addEventListener("click", () => {
     initializeGame(playerGameBoard, enemyGameBoard);
-    enemyDiv.style.cssText = "display: flex";
+    enemyDiv.classList.add("visible");
     randomizeLayoutButton.style.cssText = "display: none";
     startButton.style.cssText = "display: none";
   });
@@ -85,7 +85,7 @@ function eventHandling(playerGameBoard, enemyGameBoard) {
     gameFinished.status = false;
     startButton.style.cssText = "display: block";
     randomizeLayoutButton.style.cssText = "display: block";
-    enemyDiv.style.cssText = "display: none";
+    enemyDiv.classList.remove("visible");
     playAgainButton.style.cssText = "display: none";
     winnerText.textContent = "";
   });

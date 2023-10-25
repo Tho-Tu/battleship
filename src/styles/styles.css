@@ -70,6 +70,8 @@ button:active {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+
+  display: none;
 }
 
 .player-squares {
@@ -107,4 +109,21 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.visible {
+  display: flex;
+  animation: enemy-slide-in 0.8s ease-out 1 normal;
+  transform-origin: right;
+}
+
+@keyframes enemy-slide-in {
+  from {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(1);
+    opacity: 1;
+  }
 }
