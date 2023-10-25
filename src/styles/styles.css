@@ -7,6 +7,9 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #0f172a;
+}
 body,
 button {
   font-family: var(--font-default);
@@ -49,7 +52,6 @@ button:active {
   gap: 2rem;
   height: 100vh;
   padding: 2rem;
-  background-color: #0f172a;
   color: white;
 }
 
